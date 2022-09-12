@@ -86,6 +86,7 @@ module "eks" {
   vpc_id                          = data.aws_vpc.selected.id
   cluster_endpoint_public_access  = false
   cluster_endpoint_private_access = true
+  write_kubeconfig                = false
   cluster_version = "1.19"
   map_roles       = [
     {
