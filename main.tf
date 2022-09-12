@@ -1,5 +1,14 @@
 terraform {
   required_version = "~> 0.12"
+
+  backend "remote" {
+    hostname = "console.tfe.aws.bradandmarsha.com"
+    organization = "bradtest"
+
+    workspaces {
+      name = "myprivateeks"
+    }
+  }
 }
 
 variable "vpc_id" {
