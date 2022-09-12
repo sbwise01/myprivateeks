@@ -26,6 +26,11 @@ variable "private_subnets_tag_value" {
   description = "The value of private subnets tag."
 }
 
+variable "ingress_agent_pool_443_allow" {
+  type        = string
+  description = "Security Group ID to allow ingress traffic on port 443 to EKS cluster from TFE agent pool."
+}
+
 data "aws_caller_identity" "current" {}
 
 data "aws_eks_cluster" "eks" {
@@ -139,4 +144,14 @@ module "eks" {
   enable_irsa     = true
 
   tags = merge(local.tags, map("kubernetes.io/cluster/${local.cluster_name}", "shared"))
+}
+
+resource "aws_security_group_rule" "private_api_ingress" {
+  description              = "Allow agent pool to communicate with the EKS cluster API."
+  protocol                 = "tcp"
+  security_group_id        = module.eks.cluster_security_group_id
+  source_security_group_id = var.ingress_agent_pool_443_allow
+  from_port                = 443
+  to_port                  = 443
+  type                     = "ingress"
 }
