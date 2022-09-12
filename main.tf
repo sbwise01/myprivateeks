@@ -72,7 +72,9 @@ locals {
 }
 
 module "eks" {
-  source = "git@github.com:terraform-aws-modules/terraform-aws-eks.git?ref=v9.0.0"
+  # SSH based source
+  # source = "git@github.com:terraform-aws-modules/terraform-aws-eks.git?ref=v9.0.0"
+  source = "github.com/terraform-aws-modules/terraform-aws-eks.git?ref=v9.0.0"
 
   providers = {
     kubernetes = kubernetes.eks
